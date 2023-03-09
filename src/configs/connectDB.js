@@ -9,7 +9,7 @@ const connection = mysql.createConnection({
 });
 
 // simple query
-connection.query("SELECT * FROM `user`", function (err, results, fields) {
+connection.query("SELECT * FROM `users`", function (err, results, fields) {
     // console.log("Chay do day ne ^^");
     // console.log(results); // results contains rows returned by server
     // console.log(fields); // fields contains extra meta data about results, if available
