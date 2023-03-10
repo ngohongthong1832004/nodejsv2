@@ -1,5 +1,6 @@
 import * as dotenv from "dotenv";
 import initWebRoute from "./routes/web";
+import initApi from "./routes/api";
 // import connection from "./configs/connectDB";
 import configViewEngine from "./configs/configViewEngine";
 import bodyParser from "body-parser";
@@ -20,7 +21,8 @@ const port = process.env.PORT || 3002;
 configViewEngine(app);
 //set up router
 initWebRoute(app);
-
+//set API RESTfull
+initApi(app);
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
 });
