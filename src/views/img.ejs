@@ -1,0 +1,13 @@
+
+
+<div class="wrapper-img">
+
+    <h2>IMG Upload</h2>
+<div style="display: flex;flex-wrap: wrap;">
+    
+        <% for(let i=0; i < data.length; i++) { %>
+            <div style="margin: 10px; border: 1px solid black;"><img src="/imgs/<%= data[i].file_img%>" style = "width: 100px" /></div>
+         <% } %>
+</div>
+    
+</div>

@@ -23,6 +23,12 @@ configViewEngine(app);
 initWebRoute(app);
 //set API RESTfull
 initApi(app);
+
+//Middleware 404
+app.use((req, res) => {
+    res.send("404 not found");
+});
+
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
 });
