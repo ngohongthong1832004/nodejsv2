@@ -25,15 +25,23 @@
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="#">Upload file</a>
               </li>
-        
+              <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="/getCreateUser">Create User</a>
+              </li>
             </ul>
             <form class="d-flex">
               <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
               <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
+            <div class="register" style="display: flex;">
+              <div><a href="/login" style=" background-color: transparent;margin: 0 10px ; color: white; font-size: 20px; cursor: pointer;">Log in</a></div>
+              <div><a href="/signup" style=" background-color: transparent;margin: 0 10px ; color: white; font-size: 20px; cursor: pointer;">Sign Up</a></div>
+            </div>
           </div>
         </div>
       </nav>
+  <h1 style="padding :10px 50px">UPLOAD IMAGES</h1>
+
       <div class="form-upload-file m-4">
           <form action="/profile" method="post" enctype="multipart/form-data">
             <div class="mb-3">

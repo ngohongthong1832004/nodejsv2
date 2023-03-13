@@ -20,13 +20,13 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/">Home</a>
+                <a class="nav-link" aria-current="page" href="/">Home</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" aria-current="page" href="/upload">Upload file</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" aria-current="page" href="/getCreateUser">Create User</a>
+                <a class="nav-link active" aria-current="page" href="/getCreateUser">Create User</a>
               </li>
               <!-- <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -46,58 +46,29 @@
               <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
             <div class="register" style="display: flex;">
-              <div><a href="/login" style=" background-color: transparent;margin: 0 10px ; color: white; font-size: 20px; cursor: pointer;">Log in</a></div>
-              <div><a href="/signup" style=" background-color: transparent;margin: 0 10px ; color: white; font-size: 20px; cursor: pointer;">Sign Up</a></div>
+              <div><a href="/login" style=" background-color: transparent;margin: 0 10px ; color: white; font-size: 20px; padding: 0 10px; cursor: pointer;">Log in</a></div>
+              <div><a href="/signup" style=" background-color: transparent;margin: 0 10px ; color: white; font-size: 20px; padding: 0 10px; cursor: pointer;">Sign Up</a></div>
             </div>
           </div>
         </div>
       </nav>
-      <table class="table mt-4">
-        <thead>
-          <tr>
-            <th scope="col">ID</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Email</th>
-            <th scope="col">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% for(let i=0; i < dataUser.length; i++) { %>
-            <tr>
-              <td><%= dataUser[i].id %></td>
-              <td><%= dataUser[i].first_name %></td>
-              <td><%= dataUser[i].last_name %></td>
-              <td><%= dataUser[i].email %></td>
-              <td>
-                <button class="btn btn-outline-success"><a style="color : black ; text-decoration: none;" href="/user/detail/<%= dataUser[i].id %>">Detail</a></button>
-                <button class="btn btn-outline-info"><a  style="color : black ; text-decoration: none;" href="/user/edit/<%= dataUser[i].id %>">Edit</a></button>
-                  <div style="display: inline-flex;">
-                    <form action="/user/delete/:id" method="POST">
-                      <input type="text" value="<%= dataUser[i].id %>" name="id" hidden >
-                      <button class="btn btn-outline-danger" type="submit">Delete</button>
-                    </form>
-                  </div>
-                  <!-- <a href="/user/delete/<%= dataUser[i].id %>">Delete</a> -->
-              </td>
-            </tr>
-         <% } %>
-        </tbody>
-      </table>
-      <div style="display: flex; justify-content: center;">
-        <nav aria-label="Page navigation example">
-          <ul class="pagination">
-            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">Next</a></li>
-          </ul>
-        </nav>
+      <h1 style="padding :10px 50px">CREATE USER</h1>
+    <div style="width: 100%; display: flex; justify-content: center; padding-top: 40px;">
+        <form action="/create-user" method="POST">  
+          <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">First Name</label>
+            <input type="text"  name="first_name" class="form-control" id="exampleInputPassword1">
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Last Name</label>
+            <input type="text"  name="last_name" class="form-control" id="exampleInputPassword1">
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Email</label>
+            <input type="email"  name="email" class="form-control" id="exampleInputPassword1">
+          </div>
+          <button type="submit" class="btn btn-primary">Create</button>
+        </form>
       </div>
-
-     
-
-      
 </body>
 </html>

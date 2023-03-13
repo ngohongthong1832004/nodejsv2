@@ -92,3 +92,6 @@ export const updateUser = (req, res) => {
     // connection.execute(sql, (first_name, last_name, email));
     res.redirect("/");
 };
+export const createUserForm = (req, res) => {
+    res.render("createUser.ejs");
+};

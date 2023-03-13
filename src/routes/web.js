@@ -1,6 +1,7 @@
 import express from "express";
 import * as homeController from "../controller/homeController";
 import * as aboutController from "../controller/aboutController";
+import * as registerController from "../controller/registerController";
 import multer from "multer";
 import appRootPath from "app-root-path";
 import connection from "../configs/connectDB";
@@ -31,6 +32,7 @@ const router = express.Router();
 const initWebRoute = (app) => {
     // Slug route
 
+    router.get("/getCreateUser", aboutController.createUserForm);
     router.post("/update-user", aboutController.updateUser);
     router.get("/user/detail/:id", aboutController.getUserDetail);
     router.get("/user/edit/:id", aboutController.getEditUser);
@@ -39,6 +41,8 @@ const initWebRoute = (app) => {
     router.get("/about/:slug", aboutController.getAbout);
     router.get("/upload", homeController.upload);
     router.post("/upload-file", homeController.uploadFile);
+    router.get("/signup", registerController.signup);
+    router.get("/login", registerController.login);
     router.get("/", homeController.getHomeData);
 
     router.get("/get-all-imgs", (req, res) => {
