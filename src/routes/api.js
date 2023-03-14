@@ -4,7 +4,7 @@ import * as apiController from "../controller/apiController";
 const router = express.Router();
 
 const initApi = (app) => {
-    //API restfull
+    //API restFull
     router.get("/users", apiController.getAllUser);
     router.post("/create-users", apiController.createUser);
     router.put("/update-users", apiController.updateUser);

@@ -24,7 +24,7 @@ export const createUser = (req, res) => {
     });
     // let sql = `INSERT INTO users (first_name,last_name,email)`;
     // connection.execute(sql, (first_name, last_name, email));
-    res.redirect("/");
+    res.redirect("/home");
 };
 
 export const deleteUser = (req, res) => {
@@ -39,7 +39,7 @@ export const deleteUser = (req, res) => {
         }
     });
 
-    res.redirect("/");
+    res.redirect("/home");
 };
 
 export const getUserDetail = (req, res) => {
@@ -90,7 +90,7 @@ export const updateUser = (req, res) => {
     );
     // let sql = `INSERT INTO users (first_name,last_name,email)`;
     // connection.execute(sql, (first_name, last_name, email));
-    res.redirect("/");
+    res.redirect("/home");
 };
 export const createUserForm = (req, res) => {
     res.render("createUser.ejs");

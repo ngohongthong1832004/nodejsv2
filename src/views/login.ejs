@@ -11,8 +11,40 @@
     <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">NODEjs</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="/home">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="/upload">Upload file</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="/getCreateUser">Create User</a>
+          </li>
+
+        </ul>
+        <form class="d-flex">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+        <div class="register" style="display: flex;">
+          <div><a href="/login" style=" background-color: transparent;margin: 0 10px ; color: white; font-size: 20px; cursor: pointer;">Log in</a></div>
+          <div><a href="/signup" style=" background-color: transparent;margin: 0 10px ; color: white; font-size: 20px; cursor: pointer;">Sign Up</a></div>
+        </div>
+      </div>
+    </div>
+  </nav>
     <div style="width: 100vw; display: flex;justify-content: center; padding-top: 40px;">
-        <div style="width: 400px; text-align: center;">
+          <div style="width: 400px; text-align: center;">
+            <h1>Log In</h1>
+
             <form>
                 <!-- Email input -->
                 <div class="form-outline mb-4">

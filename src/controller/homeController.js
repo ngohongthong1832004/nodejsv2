@@ -1,38 +1,66 @@
-import connection from "../configs/connectDB";
-import multer from "multer";
-import path from "path";
+export const getHomeData = async (req, res) => {
+    const mysql = require("mysql2/promise");
+    const page = req.query.page;
+    // create the connection
 
-export const getHomeData = (req, res) => {
-    // Logic
+    const connection = await mysql.createConnection({
+        host: "localhost",
+        user: "root",
+        database: "nodejsbasic",
+    });
+    // query database
+    const rs = await connection.execute("SELECT * FROM `users` LIMIT ?,5 ", [
+        (Number(page) - 1) * 5 || 0,
+    ]);
 
-    connection.query(
-        "SELECT * FROM `users`",
-        async function (err, results, fields) {
-            const dataUser = await [...results.map((row) => row)];
-            const rs = await res.render("index.ejs", {
-                dataUser,
-            });
+    const count = await connection.execute("SELECT COUNT(id) FROM `users`", [
+        (Number(page) - 1) * 5 || 0,
+    ]);
+    const countUser = count[0][0]["COUNT(id)"];
+    // Promise.all([])
+    const maxPage = Math.ceil(countUser / 5);
+
+    const paginationArr = function (maxPage, eachSide, page) {
+        let start;
+        let end;
+        if (maxPage <= 2 * eachSide + 5) {
+            start = 1;
+            end = maxPage;
+        } else if (page <= eachSide + 3) {
+            start = 1;
+            end = eachSide * 2 + 3;
+        } else if (page >= maxPage - (eachSide + 2)) {
+            start = maxPage - 2 * eachSide - 2;
+            end = maxPage;
+        } else {
+            start = page - eachSide;
+            end = page + eachSide;
         }
-    );
+        const arr = [];
+        if (start > 1) {
+            arr.push("1");
+        }
+        if (start > 2) {
+            arr.push("...");
+        }
+        for (let i = start; i < end + 1; i++) {
+            arr.push(i);
+        }
+        if (end < maxPage - 1) {
+            arr.push("...");
+        }
+        if (end < maxPage) {
+            arr.push(maxPage);
+        }
+
+        return arr;
+    };
+
+    console.log(paginationArr(7, 2, page));
+
+    res.render("index.ejs", { dataUser: rs[0], page: page || 1, maxPage });
 };
-
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, "/tmp/my-uploads");
-    },
-    filename: function (req, file, cb) {
-        const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-        cb(null, file.fieldname + "-" + uniqueSuffix);
-    },
-});
-
-// app.post("/stats", upload.single("uploaded_file"), function (req, res) {
-//     // req.file is the name of your file in the form above, here 'uploaded_file'
-//     // req.body will hold the text fields, if there were any
-//     console.log(req.file, req.body);
-// });
 
 export const upload = (req, res) => {
     res.render("upload.ejs");
 };
-export const uploadFile = (req, res) => {};

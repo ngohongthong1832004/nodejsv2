@@ -40,10 +40,9 @@ const initWebRoute = (app) => {
     router.post("/create-user", aboutController.createUser);
     router.get("/about/:slug", aboutController.getAbout);
     router.get("/upload", homeController.upload);
-    router.post("/upload-file", homeController.uploadFile);
     router.get("/signup", registerController.signup);
     router.get("/login", registerController.login);
-    router.get("/", homeController.getHomeData);
+    router.get("/home", homeController.getHomeData);
 
     router.get("/get-all-imgs", (req, res) => {
         connection.query(
