@@ -43,6 +43,7 @@ const initWebRoute = (app) => {
     router.get("/signup", registerController.signup);
     router.get("/login", registerController.login);
     router.get("/home", homeController.getHomeData);
+    router.post("/search", homeController.search);
 
     router.get("/get-all-imgs", (req, res) => {
         connection.query(
