@@ -2,6 +2,7 @@ import express from "express";
 import * as homeController from "../controller/homeController";
 import * as aboutController from "../controller/aboutController";
 import * as registerController from "../controller/registerController";
+import auth from "../middleware/auth";
 import multer from "multer";
 import appRootPath from "app-root-path";
 import connection from "../configs/connectDB";
@@ -44,6 +45,9 @@ const initWebRoute = (app) => {
     router.get("/login", registerController.login);
     router.get("/home", homeController.getHomeData);
     router.post("/search", homeController.search);
+    router.get("/", auth, (req, res) => {
+        res.redirect("/home?page=1");
+    });
 
     router.get("/get-all-imgs", (req, res) => {
         connection.query(
