@@ -41,8 +41,13 @@ const initWebRoute = (app) => {
     router.post("/create-user", aboutController.createUser);
     router.get("/about/:slug", aboutController.getAbout);
     router.get("/upload", homeController.upload);
-    router.get("/signup", registerController.signup);
-    router.get("/login", registerController.login);
+
+    router.get("/signup", registerController.getSignUpForm);
+    router.post("/signup-get", registerController.signup);
+
+    router.get("/login", registerController.getLogInForm);
+    router.post("/login-get", registerController.login);
+
     router.get("/home", homeController.getHomeData);
     router.post("/search", homeController.search);
     router.get("/", auth, (req, res) => {
