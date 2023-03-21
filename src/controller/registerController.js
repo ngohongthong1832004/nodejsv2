@@ -42,11 +42,8 @@ export const signup = async (req, res) => {
         );
 
         const token = await jwt.sign(
-            { user_id: addUser._id, email },
-            process.env.TOKEN_KEY,
-            {
-                expiresIn: "2h",
-            }
+            { _id: addUser._id, email },
+            process.env.TOKEN_KEY
         );
         const addToken = await connection.execute(
             `UPDATE account set token = ? where email = ? `,
@@ -60,7 +57,8 @@ export const signup = async (req, res) => {
             [email]
         );
 
-        res.status(201).json(getUser);
+        // res.status(201).json(getUser);
+        res.redirect("/login");
     } catch (error) {
         console.log(error);
     }
@@ -75,6 +73,51 @@ export const getLogInForm = (req, res) => {
     res.render("login.ejs");
 };
 
-export const login = (req, res) => {
-    res.send("login.ejs");
+export const login = async (req, res) => {
+    const mysql = require("mysql2/promise");
+    const connection = await mysql.createConnection({
+        host: "localhost",
+        user: "root",
+        database: "nodejsbasic",
+    });
+
+    try {
+        const { email, password } = req.body;
+
+        if (!(email && password)) {
+            res.status(400).send("All input is required");
+        }
+
+        const user = await connection.execute(
+            "select * from account where email = ?",
+            [email]
+        );
+
+        console.log("user[0][0] :", user[0][0]);
+
+        if (
+            user[0][0] &&
+            (await bcrypt.compare(password, user[0][0].password))
+        ) {
+            // Create token
+            const token = jwt.sign(
+                { _id: user[0][0]._id, email },
+                process.env.TOKEN_KEY
+            );
+
+            // save user token to DB
+            const addToken = await connection.execute(
+                `UPDATE account set token = ? where email = ? `,
+                [token, email]
+            );
+
+            //save the user token to cookie
+            res.cookie("auth", token);
+            // user
+            res.redirect("/home?page=1");
+        }
+        res.send("Email or password is invalid");
+    } catch (error) {
+        console.log(error);
+    }
 };

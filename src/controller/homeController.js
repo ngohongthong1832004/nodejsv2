@@ -60,11 +60,20 @@ export const getHomeData = async (req, res) => {
         Number(page) || 1
     );
 
+    const showUser = req.user._id;
+
+    const userAccount = await connection.execute(
+        "SELECT * FROM `account` where _id = ?",
+        [showUser]
+    );
+    const fullName = userAccount[0][0].first_name + userAccount[0][0].last_name;
+
     res.render("index.ejs", {
         dataUser: rs[0],
         page: page || 1,
         maxPage,
         pagination,
+        fullName,
     });
 };
 

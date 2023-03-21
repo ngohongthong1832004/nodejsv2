@@ -8,6 +8,9 @@ import bodyParser from "body-parser";
 const express = require("express");
 const app = express();
 
+const cookieParser = require("cookie-parser");
+app.use(cookieParser());
+
 // use form to connext with server ( can access req.body )
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

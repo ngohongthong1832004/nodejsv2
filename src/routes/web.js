@@ -33,14 +33,14 @@ const router = express.Router();
 const initWebRoute = (app) => {
     // Slug route
 
-    router.get("/getCreateUser", aboutController.createUserForm);
-    router.post("/update-user", aboutController.updateUser);
-    router.get("/user/detail/:id", aboutController.getUserDetail);
-    router.get("/user/edit/:id", aboutController.getEditUser);
-    router.post("/user/delete/:id", aboutController.deleteUser);
-    router.post("/create-user", aboutController.createUser);
-    router.get("/about/:slug", aboutController.getAbout);
-    router.get("/upload", homeController.upload);
+    router.get("/getCreateUser", auth, aboutController.createUserForm);
+    router.post("/update-user", auth, aboutController.updateUser);
+    router.get("/user/detail/:id", auth, aboutController.getUserDetail);
+    router.get("/user/edit/:id", auth, aboutController.getEditUser);
+    router.post("/user/delete/:id", auth, aboutController.deleteUser);
+    router.post("/create-user", auth, aboutController.createUser);
+    router.get("/about/:slug", auth, aboutController.getAbout);
+    router.get("/upload", auth, homeController.upload);
 
     router.get("/signup", registerController.getSignUpForm);
     router.post("/signup-get", registerController.signup);
@@ -48,13 +48,13 @@ const initWebRoute = (app) => {
     router.get("/login", registerController.getLogInForm);
     router.post("/login-get", registerController.login);
 
-    router.get("/home", homeController.getHomeData);
-    router.post("/search", homeController.search);
-    router.get("/", auth, (req, res) => {
-        res.redirect("/home?page=1");
+    router.get("/home", auth, homeController.getHomeData);
+    router.post("/search", auth, homeController.search);
+    router.get("/", (req, res) => {
+        res.redirect("/login");
     });
 
-    router.get("/get-all-imgs", (req, res) => {
+    router.get("/get-all-imgs", auth, (req, res) => {
         connection.query(
             "SELECT * FROM imgs",
             async function (err, results, fields) {
@@ -64,22 +64,27 @@ const initWebRoute = (app) => {
         );
     });
 
-    router.post("/profile", upload.single("avatar"), function (req, res, next) {
-        // req.file is the `avatar` file
-        console.log("save File");
-        console.log("req.file : ", req.file);
-        console.log("req.body : ", req.body);
+    router.post(
+        "/profile",
+        auth,
+        upload.single("avatar"),
+        function (req, res, next) {
+            // req.file is the `avatar` file
+            console.log("save File");
+            console.log("req.file : ", req.file);
+            console.log("req.body : ", req.body);
 
-        var sql = `INSERT INTO imgs ( file_img ) VALUES ( ? )`;
-        connection.query(sql, [req.file.filename], function (err, data) {
-            if (err) {
-                // some error occured
-            } else {
-                // successfully inserted into db
-            }
-        });
-        res.redirect("/get-all-imgs");
-    });
+            var sql = `INSERT INTO imgs ( file_img ) VALUES ( ? )`;
+            connection.query(sql, [req.file.filename], function (err, data) {
+                if (err) {
+                    // some error occured
+                } else {
+                    // successfully inserted into db
+                }
+            });
+            res.redirect("/get-all-imgs");
+        }
+    );
     // root  route
     return app.use("/", router);
 };
