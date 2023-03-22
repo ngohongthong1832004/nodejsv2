@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
+import moment from "moment";
 
 export const signup = async (req, res) => {
     const mysql = require("mysql2/promise");
@@ -72,7 +73,13 @@ export const getSignUpForm = (req, res) => {
 export const getLogInForm = (req, res) => {
     res.render("login.ejs");
 };
-
+export const logout = (req, res) => {
+    res.cookie("auth", "token", {
+        expires: new Date(Date.now()),
+        httpOnly: true,
+    });
+    res.redirect("/");
+};
 export const login = async (req, res) => {
     const mysql = require("mysql2/promise");
     const connection = await mysql.createConnection({
@@ -112,7 +119,10 @@ export const login = async (req, res) => {
             );
 
             //save the user token to cookie
-            res.cookie("auth", token);
+            res.cookie("auth", token, {
+                expires: new Date(Date.now() + 30000000),
+                httpOnly: true,
+            });
             // user
             res.redirect("/home?page=1");
         }
@@ -120,4 +130,72 @@ export const login = async (req, res) => {
     } catch (error) {
         console.log(error);
     }
+};
+
+export const getSetting = async (req, res) => {
+    const mysql = require("mysql2/promise");
+    const connection = await mysql.createConnection({
+        host: "localhost",
+        user: "root",
+        database: "nodejsbasic",
+    });
+
+    const showUser = req.user._id;
+
+    const userAccount = await connection.execute(
+        "SELECT * FROM `account` where _id = ?",
+        [showUser]
+    );
+
+    const fullName =
+        userAccount[0][0].first_name + " " + userAccount[0][0].last_name;
+    const userInfo = userAccount[0][0];
+
+    const getImg = await connection.execute(
+        "select * from account where email = ?",
+        [userAccount[0][0].email]
+    );
+
+    const avatarPath = getImg[0][0].file_img;
+    // console.log(
+    //     "time ne :",
+    //     moment(userInfo.date, "DD/MM/YYYY", true).format()
+    // );
+    // console.log("time 2 ne :", moment(String(userInfo.date)));
+    res.render("setting.ejs", {
+        fullName,
+        userInfo,
+        avatarPath: avatarPath || "avatar.jpg",
+    });
+};
+
+export const updateAccount = async (req, res) => {
+    const mysql = require("mysql2/promise");
+    const connection = await mysql.createConnection({
+        host: "localhost",
+        user: "root",
+        database: "nodejsbasic",
+    });
+    const { first_name, last_name } = req.body;
+
+    // console.log("req.user :", req.user.email);
+    const email = req.user.email;
+
+    // console.log({ first_name, last_name });
+    const user = await connection.execute(
+        `UPDATE account set first_name = ? , last_name = ? where email = ?`,
+        [first_name, last_name, email]
+    );
+
+    const getUser = await connection.execute(
+        "select * from account where email =?",
+        [email]
+    );
+
+    const updateImg = await connection.execute(
+        `UPDATE  account set  file_img = ? where email = ?`,
+        [req.file?.filename || getUser[0][0]?.file_img || "avatar.jpg", email]
+    );
+
+    res.redirect("/setting");
 };

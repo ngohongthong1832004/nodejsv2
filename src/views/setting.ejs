@@ -122,15 +122,6 @@
                             data-bs-toggle="dropdown"
                             aria-expanded="false"
                         >
-                            <img
-                                style="
-                                    width: 25px;
-                                    height: 25px;
-                                    border-radius: 999px;
-                                "
-                                src="/imgs/<%=avatar%>"
-                                alt="test"
-                            />
                             <%= fullName %>
                         </button>
                         <ul
@@ -156,90 +147,122 @@
                 </div>
             </div>
         </nav>
-        <table class="table mt-4">
-            <thead>
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">First</th>
-                    <th scope="col">Last</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% for(let i=0; i < dataUser.length; i++) { %>
-                <tr>
-                    <td><%= dataUser[i].id %></td>
-                    <td><%= dataUser[i].first_name %></td>
-                    <td><%= dataUser[i].last_name %></td>
-                    <td><%= dataUser[i].email %></td>
-                    <td>
-                        <button class="btn btn-outline-success">
-                            <a
-                                style="color: black; text-decoration: none"
-                                href="/user/detail/<%= dataUser[i].id %>"
-                                >Detail</a
-                            >
-                        </button>
-                        <button class="btn btn-outline-info">
-                            <a
-                                style="color: black; text-decoration: none"
-                                href="/user/edit/<%= dataUser[i].id %>"
-                                >Edit</a
-                            >
-                        </button>
-                        <div style="display: inline-flex">
-                            <form action="/user/delete/:id" method="POST">
-                                <input
-                                    type="text"
-                                    value="<%= dataUser[i].id %>"
-                                    name="id"
-                                    hidden
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-lg-4 pb-5">
+                    <!-- Account Sidebar-->
+                    <div class="author-card pb-3">
+                        <div
+                            class="author-card-cover"
+                            style="background-image: url(/imgs/background.jpg)"
+                        ></div>
+                        <div class="author-card-profile">
+                            <div class="author-card-avatar">
+                                <img
+                                    src="/imgs/<%=avatarPath%>"
+                                    alt="<%= fullName%>"
                                 />
-                                <button
-                                    class="btn btn-outline-danger"
-                                    type="submit"
+                            </div>
+                            <div class="author-card-details">
+                                <h5 class="author-card-name text-lg">
+                                    <%= fullName%>
+                                </h5>
+                                <span class="author-card-position"
+                                    >Last login <%= userInfo['date']%></span
                                 >
-                                    Delete
-                                </button>
-                            </form>
+                            </div>
                         </div>
-                        <!-- <a href="/user/delete/<%= dataUser[i].id %>">Delete</a> -->
-                    </td>
-                </tr>
-                <% } %>
-            </tbody>
-        </table>
-        <div style="display: flex; justify-content: center">
-            <nav aria-label="Page navigation example">
-                <ul class="pagination">
-                    <% if (page > 1 ) { %>
-                    <li class="page-item">
-                        <a class="page-link" href="/home?page=<%= page - 1%>"
-                            >Previous</a
-                        >
-                    </li>
-                    <% } %> <% for(let i= 0 ; i < pagination.length ; i++) { %>
-                    <li class="page-item">
-                        <a
-                            styles="<% if (Number(pagination[i]) === Number(page) ) { %>background-color:rgb(203, 207, 206)<% }%>"
-                            class="page-link"
-                            href="/home?page=<%= pagination[i] %>"
-                        >
-                            <%= pagination[i] %>
-                        </a>
-                    </li>
-                    <% }%> <% if ( Number(page) !== maxPage) { %>
-                    <li class="page-item">
-                        <a
-                            class="page-link"
-                            href="/home?page=<%= page - 1 + 2%>"
-                            >Next</a
-                        >
-                    </li>
-                    <% } %>
-                </ul>
-            </nav>
+                    </div>
+                    <div class="wizard">
+                        <nav class="list-group list-group-flush">
+                            <a class="list-group-item active" href="#">
+                                Profile Settings
+                            </a>
+                        </nav>
+                    </div>
+                </div>
+                <!-- Profile Settings-->
+                <div class="col-lg-8 pb-5">
+                    <form
+                        class="row"
+                        action="/update-account"
+                        method="post"
+                        enctype="multipart/form-data"
+                    >
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="account-fn">First Name</label>
+                                <input
+                                    class="form-control"
+                                    type="text"
+                                    id="account-fn"
+                                    value="<%= userInfo.first_name %>"
+                                    required=""
+                                    name="first_name"
+                                />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="account-ln">Last Name</label>
+                                <input
+                                    class="form-control"
+                                    type="text"
+                                    id="account-ln"
+                                    value="<%= userInfo.last_name %>"
+                                    required=""
+                                    name="last_name"
+                                />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="account-ln">Add new avatar</label>
+                                <input
+                                    class="form-control"
+                                    type="file"
+                                    id="formFile"
+                                    name="img"
+                                />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="account-email"
+                                    >E-mail Address</label
+                                >
+                                <input
+                                    class="form-control"
+                                    type="email"
+                                    id="account-email"
+                                    value="<%= userInfo.email %>"
+                                    disabled=""
+                                />
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <hr class="mt-2 mb-3" />
+                            <div
+                                class="d-flex flex-wrap justify-content-between align-items-center"
+                            >
+                                <button
+                                    class="btn btn-style-1 btn-primary"
+                                    type="submit"
+                                    data-toast=""
+                                    data-toast-position="topRight"
+                                    data-toast-type="success"
+                                    data-toast-icon="fe-icon-check-circle"
+                                    data-toast-title="Success!"
+                                    data-toast-message="Your profile updated successfuly."
+                                >
+                                    Update Profile
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </body>
 </html>

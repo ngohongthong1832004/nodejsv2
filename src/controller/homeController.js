@@ -66,7 +66,8 @@ export const getHomeData = async (req, res) => {
         "SELECT * FROM `account` where _id = ?",
         [showUser]
     );
-    const fullName = userAccount[0][0].first_name + userAccount[0][0].last_name;
+    const fullName =
+        userAccount[0][0].first_name + " " + userAccount[0][0].last_name;
 
     res.render("index.ejs", {
         dataUser: rs[0],
@@ -74,6 +75,7 @@ export const getHomeData = async (req, res) => {
         maxPage,
         pagination,
         fullName,
+        avatar: userAccount[0][0].file_img || "avatar.jpg",
     });
 };
 

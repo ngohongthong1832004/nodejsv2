@@ -12,7 +12,6 @@ import path from "path";
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        console.log("appRootPath :", appRootPath);
         cb(null, appRootPath + "/src/public/imgs");
     },
     filename: function (req, file, cb) {
@@ -48,7 +47,18 @@ const initWebRoute = (app) => {
     router.get("/login", registerController.getLogInForm);
     router.post("/login-get", registerController.login);
 
+    router.get("/logout", registerController.logout);
+
     router.get("/home", auth, homeController.getHomeData);
+
+    router.get("/setting", auth, registerController.getSetting);
+    router.post(
+        "/update-account",
+        auth,
+        upload.single("img"),
+        registerController.updateAccount
+    );
+
     router.post("/search", auth, homeController.search);
     router.get("/", (req, res) => {
         res.redirect("/login");
@@ -66,6 +76,27 @@ const initWebRoute = (app) => {
 
     router.post(
         "/profile",
+        auth,
+        upload.single("avatar"),
+        function (req, res, next) {
+            // req.file is the `avatar` file
+            console.log("save File");
+            console.log("req.file : ", req.file);
+            console.log("req.body : ", req.body);
+
+            var sql = `INSERT INTO imgs ( file_img ) VALUES ( ? )`;
+            connection.query(sql, [req.file.filename], function (err, data) {
+                if (err) {
+                    // some error occured
+                } else {
+                    // successfully inserted into db
+                }
+            });
+            res.redirect("/get-all-imgs");
+        }
+    );
+    router.post(
+        "/update-img-account",
         auth,
         upload.single("avatar"),
         function (req, res, next) {
