@@ -1,13 +1,18 @@
 # nodejsv2
 
-Learn Express-v2
+Learn Express-v2 
 
-BE : Express ( nodeJs )
+Server : Express ( nodeJs )
 
-FE : Ejs 
+Client : Ejs 
 
 DB : mysql2 mySql with php XAMPP ( connect with DB by query pure )
 
-Feature : Authentication,  CRUD , i want to make authorization ( Login with JWT body-parse ), upload Img ( Multer )
+Feature :
+        Authentication,
+        CRUD,
+        Upload Img ( Multer ),
+        I want to make authorization ( Login with JWT body-parse )
+        
 
 
