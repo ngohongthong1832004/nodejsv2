@@ -9,10 +9,10 @@ Client : Ejs
 DB : mysql2 mySql with php XAMPP ( connect with DB by query pure )
 
 Feature :
-       - Authentication,
-       - CRUD,
-       - Upload Img ( Multer ),
-       - I want to make authorization ( Login with JWT body-parse )
+ - Authentication,
+ - CRUD,
+ - Upload Img ( Multer ),
+ - I want to make authorization ( Login with JWT body-parse )
         
 
 
