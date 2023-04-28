@@ -4,7 +4,7 @@ Learn Express-v2
 
 Server : Express ( nodeJs )
 
-Client : Ejs 
+UI : Ejs 
 
 DB : mysql2 mySql with php XAMPP ( connect with DB by query pure )
 
